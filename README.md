@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+#Its a basic chat room app created using PUSHER Api
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
