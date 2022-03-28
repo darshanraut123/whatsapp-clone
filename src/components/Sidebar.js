@@ -3,20 +3,17 @@ import { Avatar, IconButton } from "@mui/material";
 // import {  useState } from "react";
 import "./Sidebar.css";
 import SidebarChat from "./SidebarChat";
+import { WhatsApp } from "@material-ui/icons";
 
 
 function Sidebar() {
 
     
 
-    // const [rooms,setRooms]=useState();
-
-
-
     return (
         <div className="sidebar">
             <div className="sidebar__header">
-            <Avatar src={`https://avatars.dicebear.com/api/human/SEEED.svg`} />
+            <WhatsApp className="whatsAppIcon"></WhatsApp>
                 <div className="sidebar__headerRight">
                 <IconButton>
                     <DonutLarge></DonutLarge>

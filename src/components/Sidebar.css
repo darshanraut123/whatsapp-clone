@@ -47,7 +47,13 @@
     .sidebar__searchContainer>input{
       border: none;
       margin-left: 10px;
+      height: 30px;
+      width: 400px;
     }
+
+    .sidebar__searchContainer>input:focus {
+      outline-width: 0;
+  }
 
     .sidebar__searchContainer>.MuiSvgIcon-root{
       color: gray;
@@ -58,3 +64,10 @@
       flex:1;
       background-color: white;
     }
+
+    .whatsAppIcon{
+      height: 60px !important;
+      width: 60px !important;
+      color: green;
+      text-shadow: 3px 3px 3px 3px greenyellow;
+  }
