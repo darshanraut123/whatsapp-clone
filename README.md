@@ -1,4 +1,5 @@
-#Its a basic chat room app created using PUSHER Api
+# Its an basic chat room app created by me using PUSHER Api
+# https://whatsapp-clone-darshan.netlify.app/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
