@@ -1,76 +1,68 @@
 import { AttachFile, InsertEmoticon, MicNone, MoreVert, SearchOutlined, } from "@material-ui/icons";
 import { Avatar, IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
 import "./Chat.css";
-import axois from 'axios';
+import { useState, useRef, useEffect } from "react";
 import Message from "./Message";
-function Chat() {
-    const [input,setInput]=useState("");
-    const [chats,setChats]=useState([]);
+import instance from "../axios";
 
-    useEffect(()=>{
-        axois.get("http://localhost:4000/api/messages/sync").then(res=>{
-            setChats(res.data);
-            console.log(chats)
-        }).catch(err=>{console.log(err)})
-    },[]);
-      
+function Chat({ loginname, messages }) {
 
-    // useEffect(()=>{
-    //     var pusher = new Pusher('4cc37002811aa87b2ca8', {
-    //         cluster: 'ap2'
-    //       });
-    //       var channel = pusher.subscribe('messages');
-    //       channel.bind('inserted', function(data) {
-    //         setRooms(data);
-    //         console.log(data)
-    //       });
-    // },[])
+    const divRef = useRef(null);
+    const [inputMessage, setInputMessage] = useState("");
 
-
-
-
-    function sendMessage(e){
+    const onFormSubmit = async (e) => {
         e.preventDefault();
-        console.log(input);
+        const data = {
+            "message": inputMessage,
+            "name": loginname,
+            "timestamp": new Date(),
+            "receiver": "false"
+        }
 
+        await instance.post("/api/v1/messages/new", data);
+        setInputMessage("");
     }
 
+
+
+    useEffect(() => {
+        divRef.current.scrollBy(0, 10000);
+
+    }, [messages]);
+
     return (
-    <div className="chat">
-        <div className="chat__header">
-            <Avatar />
-            <div className="chat__headerInfo">
-                <h3>Room name</h3>
-                <p>Last seen at...</p>
+        <div className="chat">
+            <div className="chat__header">
+                <Avatar src={`https://avatars.dicebear.com/api/human/SEEED.svg`} />
+                <div className="chat__headerInfo">
+                    <h3>{loginname}</h3>
+                </div>
+                <div className="chat__headerRight">
+                    <IconButton>
+                        <SearchOutlined />
+                    </IconButton>
+                    <IconButton>
+                        <AttachFile />
+                    </IconButton>
+                    <IconButton>
+                        <MoreVert />
+                    </IconButton>
+                </div>
             </div>
-            <div className="chat__headerRight">
-                <IconButton>
-                    <SearchOutlined/>
-                </IconButton>
-                <IconButton>
-                    <AttachFile/>
-                </IconButton>
-                <IconButton>
-                    <MoreVert/>
-                </IconButton>
+            <div ref={divRef} className="chat__body">
+                {
+                    messages.map(message => <Message key={message._id} message={message} loginname={loginname} />)
+                }
             </div>
-        </div>
-        <div className="chat__body">
-        {
-            chats.map(chat=><Message key={chat.id} {...chat}/>)
-        }
-    
-        </div>
-        <div className="chat__footer">
-            <InsertEmoticon/>
-            <form>
-                <input placeholder="Send a message..." type="text" value={input} onChange={(e)=>{setInput(e.target.value)}} />
-                <button onClick={e=>sendMessage(e)} type="submit">Send message</button>
-            </form>
-            <MicNone/>
-        </div>
-    </div> ); 
+            <div className="chat__footer">
+                <InsertEmoticon />
+                <form onSubmit={onFormSubmit}>
+                    <button type="submit">Send message</button>
+                    <input placeholder="Send a message..." type="text" value={inputMessage} onChange={(e) => { setInputMessage(e.target.value) }} />
+                </form>
+                <MicNone />
+            </div>
+        </div>);
 }
 
 export default Chat;

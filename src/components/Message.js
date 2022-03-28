@@ -1,13 +1,12 @@
-function Message({id,message,name,timestamp}) {
+function Message({ message, loginname }) {
 
-    console.log(message,name,id)
     return (
         <>
-            <p className="chat__message chat__receiver">
-                <span className="chat__name">{name}</span>
-                {message}
+            <p className={`chat__message ${loginname === message.name ? "chat__receiver" : ""}`}>
+                <span className="chat__name">{message.name}</span>
+                {message.message}
                 <span className="chat__timestamp">
-                    {timestamp}
+                    {message.timestamp}
                 </span>
             </p>
         </>);
